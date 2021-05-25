@@ -1,0 +1,79 @@
+.login-content {
+    padding-bottom: 1rem;
+    margin: 0 auto;
+    width: 80vw;
+    
+}
+@media only screen and (min-height: 320px) {
+    .login-content {
+        height: 100vh;
+    }
+}
+
+@media only screen and (min-width: 420px) {
+    .login-content {
+        width: 60vw;
+    }
+}
+@media only screen and (min-width: 700px) {
+    .login-content {
+        width: 40vw;
+    }
+}
+
+h1 {
+    padding: 10vh 0 5vh;
+    font-size: 2rem;
+}
+@media only screen and (min-width: 850px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    label {
+        font-size: 1rem;
+    }
+}
+
+.field {
+    padding: 0.5rem 0;
+}
+
+
+
+
+.submit-btn {
+    font-size: 0.9rem;
+    padding: 0.2rem 1rem;
+
+    background-color: black;
+    color: white;
+    border-radius: 0.5rem;
+    border: 1px solid var(--font-blue);
+}
+@media only screen and (min-width: 450px) {
+    .submit-btn {
+        padding: 0.2rem 10vw;
+    }
+}
+
+main table {
+    border-spacing: 2rem;
+    border-collapse: separate
+}
+
+input {
+    border: 1px solid black;
+    border-radius: 9999px;
+    padding: 5px 1rem;
+}
+
+input:hover {
+    box-shadow: 0 0 3px 2px rgb(198, 198, 198);
+}
+
+input:target, 
+input:active, 
+input:focus {
+    box-shadow: 0 0 3px 2px var(--font-blue);
+    border: 1px solid var(--font-blue);
+}

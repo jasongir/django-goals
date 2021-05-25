@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles%} <link rel="stylesheet" href="{% static 'css/goal_form_styles.css' %}"> {% endblock %}
+{% block content %}
+<div class="main-container">
+    {% if type == 'create' %}
+        <h1>Create a New Goal</h1>
+    {% else %}
+        <h1>Update Your Goal</h1>
+    {% endif %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        
+        <div class="btn-container">
+            {% if type == 'create' %}
+            <input 
+                class="submit-btn"
+                type="submit" 
+                value="Create Goal"
+            >
+            {% else %}
+                <input 
+                    class="submit-btn"
+                    type="submit" 
+                    value="Save Goal"
+                >
+            {% endif %}
+
+            <input 
+                class="submit-btn"
+                type="submit" 
+                value="Cancel"
+                onclick="window.location.href=`{% url 'goal:user-detail' user.username_slug %}`;return false;"
+            >
+        </div>
+    </form>
+</div>
+{% endblock %}

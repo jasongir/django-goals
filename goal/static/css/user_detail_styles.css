@@ -1,0 +1,212 @@
+/* the entire content container */
+.user-detail-content {
+    padding: 0px 3rem 1rem;
+}
+@media only screen and (max-width: 520px) {
+   .user-detail-content {
+      padding: 0px 1rem 1rem;
+  }
+}
+@media only screen and (min-width: 690px) {
+   .user-detail-content {
+      width: 80%;
+      margin: 0 auto;
+  }
+
+}
+@media only screen and (min-width: 850px) {
+   .user-detail-content {
+      width: 60%;
+      margin: 0 auto;
+  }
+}
+/*! ***********************  */
+/* .user-detail-content {
+    background-color: black;
+}
+h2 {
+    color: white;
+} */
+h1 {
+    /* text-decoration: underline black; */
+}
+/*! ***********************  */
+
+/* public goal or private goal section */
+.content section {
+    padding: 2rem 0;
+}
+/* each individual goal article*/
+.content article.individual-goal {
+    background-color: #f1f1f1;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin: 0.5rem 0rem 0.5rem 1rem;
+}
+@media only screen and (min-width: 690px) {
+  .content article.individual-goal {
+     margin-top: 1.5rem;
+     margin-bottom: 1.5rem;
+     padding: 1rem;
+  }
+}
+/* the big button saying create new goal */
+.content button.create-goal-button {
+    display: block;
+    margin: 0 auto 20vh;
+
+    background-color: black;
+    font-size: 2rem;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 2.5rem;
+
+    cursor: pointer;
+}
+
+/* the big heading saying welcome back, xyz */
+h1 {
+    font-size: 3.5rem;
+    padding: 20vh 0px;
+    color: var(--font-blue);
+    text-align: center;
+}
+/* heading for each section: public goal/private goal */
+h2 {
+    font-size: 2rem;
+}
+
+/* positioning each h3 */
+h3 {
+    padding: 0.5rem 0;
+    width: 80%
+}
+@media only screen and (max-width: 500px) {
+   h2 {
+      width: 70%;
+   }
+}
+/* these are for the links/specific goal names */
+h3 a {
+    color: black;
+}
+/* the links to specific goals, but when active */
+h3 a:hover,
+h3 a:target,
+h3 a:active {
+    color: var(--font-blue);
+    text-decoration: underline;
+}
+/* smaller buttons under all the public and private goals */
+.small-create-goal {
+    font-size: 1rem;
+    padding: 0.5rem 2rem;
+    border-radius: 0.25rem;
+    border: 2px solid var(--font-blue);
+    
+    color: white;
+    background-color: black;
+}
+/* container for each of the small create-goal buttons */
+.small-create-goal-container {
+    display: flex;
+    justify-content: center;   
+}
+
+
+/** THE INTERACTIVE STUFF */
+/* button to update goal 
+  & button to open delete menu */
+.update-goal, .delete-goal-trash {
+    float: right;
+}
+/* The thumbs up button */
+button.like-button {
+    display: inline;
+}
+/* 1 additional style added to each article to 
+allow for absolute positioning of delete menu */
+.individual-goal {
+    position: relative;
+}
+/* div holding the edit, delete button
+    also holds the hidden confirmation div */
+.edit-delete-buttons {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 5px;
+}
+.show-border {
+    border: 1px solid black;
+}
+
+/* the div containing the hidden menu
+with the form to actually delete*/
+.delete-goal.hide-delete {
+    display: none;
+}
+/* buttons to confirm or cancel deletion 
+(and the form containing yes button)*/
+.yes-no-button {
+    display: inline;
+}
+
+
+/** non-logged-in modal styles*/
+/* the div inside aside that shows up when not logged in */
+.login-modal-container {
+    background-color: black;
+    color: white;
+    position: fixed;
+    height: 80vh;
+    width: 80vw;
+    top: 10vh;
+    left: 10vw;
+
+    padding: 2rem;
+    border-radius: 1.5rem;
+}
+/* the x in the corner to exit the modal */
+.cancel-no-login-x {
+    /* some of these styles make it so we only see the x */
+    background-color: black;
+    border: none;
+    color: red;
+
+    font-size: 2rem;
+    position: absolute;
+    right: 4vw;
+    top: 4vw;
+}
+/* the text inside of the modal */
+.login-modal-container h3 {
+    font-size: 2rem;
+    margin-top: 10vh;
+    text-align: center;
+}
+.modal-button-container {
+    margin-top: 20vh;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+/* The buttons inside of the modal: cancel, login, create account */
+.modal-button {
+    color: white;
+    border: 2px solid white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 1rem;
+}
+/* class that the modal starts off with, but is removed with 
+javascript when the thumbs up button is pressed */
+.login-modal.hidden-modal, .login-modal-container.hidden-modal {
+    display: none;
+}

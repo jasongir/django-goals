@@ -1,0 +1,81 @@
+:root {
+    --font-blue: rgb(0, 93, 207);
+    --bubble-gray: #f1f1f1;
+}
+
+*/*, *::after, *::before,
+body, body::after, body::before*/ {
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+button {
+   cursor: pointer;
+}
+
+nav ul {
+    background-color: gainsboro;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    margin: 0;
+    padding: 0;
+}
+nav li {
+    list-style-type: none;
+}
+.nav-home-li {
+    margin-right: auto;
+}
+nav a {
+    display: block;
+    padding: 1em;
+    color: black;
+
+}
+nav a:hover,
+nav a:focus,
+nav a:target,
+nav a:active {
+    background-color: ghostwhite;
+    text-decoration: underline var(--font-blue);
+    text-decoration-thickness: 3px;
+}
+
+/* add a bit of padding to main section */
+main.content {
+    
+    /*background-image: linear-gradient(to right, var(--font-blue), white, #afafaf);*/
+}
+
+/** index styles 
+.index-article*/
+
+footer {
+    height: 30vh;
+}
+.footer-container {
+    margin: auto;
+    background-color: black;
+    color: white;
+    width: 96vw;
+    height: 28vh;
+
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+textarea {
+    padding: 3px;
+}
+/* add this class to all buttons with a fa icon inside*/
+.icon-btn {
+   padding: 0.25em;
+   border: none;
+   font-size: 1rem;
+}

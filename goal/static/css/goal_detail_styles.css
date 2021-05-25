@@ -1,0 +1,196 @@
+.goal-detail {
+    padding: 0px 3rem 1rem;
+}
+@media only screen and (max-width: 430px) {
+   .goal-detail {
+      padding: 1rem 0.75rem;
+  }
+
+}
+
+.content section {
+    padding: 1rem 0 2rem;
+}
+/* each individual goal article*/
+.content article {
+    background-color: var(--bubble-gray);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin: 1rem;
+}
+
+/* heading for each section: public goal/private goal */
+h1 {
+    font-size: 3rem;
+    width: 90%;
+}
+@media only screen and (max-width: 500px) {
+   h1 {
+      font-size: 1.5rem;
+      width: 80%;
+   }
+   h2 {
+      font-size: 1rem;
+   }
+}
+/* positioning each h3 */
+h2 {
+    padding: 0.5rem 0 2rem;
+
+}
+/* these are for the links/specific goal names */
+a {
+    color: black;
+}
+/* the links to specific goals, but when active */
+a:hover,
+a:target,
+a:active {
+    color: var(--font-blue);
+    text-decoration: underline;
+}
+
+
+.update-goal, .delete-goal-trash {
+    float: right;
+}
+/* The thumbs up button */
+button.like-button {
+    display: inline;
+}
+/* 1 additional style added to each article to 
+allow for absolute positioning of delete menu */
+.goal-info {
+    position: relative;
+}
+/* div holding the edit, delete button
+    also holds the hidden confirmation div */
+.edit-delete-buttons {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    background-color: var(--bubble-gray);
+    padding: 5px;
+    border-radius: 5px;
+}
+.show-border {
+    border: 1px solid black;
+}
+
+/* the div containing the hidden menu
+with the form to actually delete*/
+.delete-goal.hide-delete {
+    display: none;
+}
+/* buttons to confirm or cancel deletion 
+(and the form containing yes button)*/
+.yes-no-button {
+    display: inline;
+}
+.comment-section .comment {
+    background-color: var(--bubble-gray);
+    border-radius: 0.5rem;
+    margin: 1rem 0px 0px;
+    padding: 0.5rem;
+    position: relative;
+}
+.delete-comment-buttons {
+    float: right;
+}
+.delete-comment-trash {
+    float: right;
+}
+/* Ability to delete comments: */
+.delete-comment.hide-delete {
+    display: none;
+}
+@media only screen and (max-width: 510px) {
+   #id_text {
+      width: 70vw;
+   }
+}
+
+
+/* the section containing the comment form or create account/login btns */
+.post-comment {
+   background-color: var(--bubble-gray);
+   padding: 0.5rem;
+   border-radius: 0.5rem;
+}
+/* Buttons within the comment form area*/
+.comment-btn {
+   background-color: black;
+   color: white;
+   border: none;
+   border-radius: 7px;
+   padding: 0.5rem 2rem;
+   font-size: 1rem;
+}
+@media only screen and (max-width: 510px) {
+   .comment-btn {
+      padding: 0.5rem;
+   }
+}
+@media only screen and (max-width: 360px) {
+   .comment-btn {
+      font-size: 0.85rem;
+   }
+}
+
+
+
+
+/** non-logged-in modal styles*/
+/* the div inside aside that shows up when not logged in */
+.login-modal-container {
+    background-color: black;
+    color: white;
+    position: fixed;
+    height: 80vh;
+    width: 80vw;
+    top: 10vh;
+    left: 10vw;
+
+    padding: 2rem;
+    border-radius: 1.5rem;
+}
+/* the x in the corner to exit the modal */
+.cancel-no-login-x {
+    /* some of these styles make it so we only see the x */
+    background-color: black;
+    border: none;
+    color: red;
+
+    font-size: 2rem;
+    position: absolute;
+    right: 4vw;
+    top: 4vw;
+}
+/* the text inside of the modal */
+.login-modal-container h3 {
+    font-size: 2rem;
+    margin-top: 10vh;
+    text-align: center;
+}
+.modal-button-container {
+    margin-top: 20vh;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+/* The buttons inside of the modal: cancel, login, create account */
+.modal-button {
+    color: white;
+    border: 2px solid white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 1rem;
+}
+/* class that the modal starts off with, but is removed with 
+javascript when the thumbs up button is pressed */
+.login-modal.hidden-modal, .login-modal-container.hidden-modal {
+    display: none;
+}

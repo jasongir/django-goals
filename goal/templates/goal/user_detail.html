@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block styles %} <link rel="stylesheet" href="{% static 'css/user_detail_styles.css' %}"> {% endblock %}
+
+{% block content %}
+    <div class="user-detail-content">
+    
+        {% if user == page_owner %}
+            <h1>Welcome back, {{page_owner}}</h1>
+
+            <div class="create-goal-button-container">
+                <button class="create-goal-button"
+                onclick="window.location.href=`{% url 'goal:create-goal' %}`;return false;"
+                >
+                    Create New Goal
+                </button>
+            </div>
+
+        {% else %}
+            <h1>Welcome to {{page_owner}}'s page</h1>
+        {% endif %}
+
+        {% load humanize %}
+        
+<!--!-------------------------------------------------->
+        <section class="public-goals">
+            <h2 id="public-goals">Public Goals</h2>
+            {% if public_goal_likeable %}
+                {% for goal in public_goal_likeable %}
+                    <article class="individual-goal">
+                        {% if user == page_owner %}
+                        <div class="edit-delete-buttons">
+                            <button 
+                                onclick="window.location.href=`{% url 'goal:goal-update' goal.goal.owner.username_slug goal.goal.pk goal.goal.goal_slug %}?next={{ request.url }}`;return false;"
+                                class="update-goal icon-btn"
+                            >
+                                <i class="fas fa-pen-square"></i>
+                            </button>
+                            <button class="delete-goal-trash icon-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <div class="delete-goal hide-delete">
+                                <p>Are you sure you want to delete this goal?</p>
+                                <br>
+                                <form action="{% url 'goal:goal-delete' goal.goal.id %}" method="post" class="yes-no-button">
+                                    {% csrf_token %}
+                                    <button class="yes-no-button" type="submit">
+                                        yes
+                                    </button>
+                                </form>
+                                <button class="no-delete-goal yes-no-button">
+                                    no
+                                </button>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <h3><a href="{{ goal.goal.get_absolute_url }}">{{ goal.goal.title }}</a></h3>
+                        <!-- edit button
+                        <slug:username_slug>/<int:pk>/<slug:goal_slug>/update/
+                        -->
+
+                        {% if goal.goal.description %}
+                            <p>{{ goal.goal.description }}</p>
+                        {% endif %}
+                            {% if user.is_authenticated %} 
+                                <form action="{% url 'goal:like-goal' goal.goal.id %}#public-goals" method="post" >
+                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                    {% csrf_token %}
+                                    <p>
+                                        {{ goal.goal.upvotes }} 
+                                        <button type="submit" class="like-button icon-btn {% if goal.already_liked %}liked{% endif %}">
+                                            {% if goal.already_liked %}
+                                                    <i class="fas fa-thumbs-up"></i>
+                                            {% else %}
+                                                    <i class="far fa-thumbs-up"></i>
+                                            {% endif %}
+                                        </button>
+                                    </p>
+                                </form>
+                            {% else %}
+                                <p>
+                                    {{ goal.goal.upvotes }} 
+                                    <button class="like-button icon-btn {% if goal.already_liked %}liked{% endif %} btn-no-login">
+                                        <i class="far fa-thumbs-up"></i>
+                                    </button>
+                                </p>
+                            {% endif %}
+                        <p>Created: {{ goal.goal.created_at|naturalday }}. 
+                            {% if goal.goal.created_at < goal.goal.updated_at %}
+                                Edited: {{ goal.goal.updated_at|naturalday }}
+                            {% endif %}
+                        </p>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <article>
+                    <p>No public goals so far...</p>
+                </article>
+            {% endif %}
+            {% if user == page_owner %}
+                <div class="small-create-goal-container">
+                    <button
+                    class="small-create-goal"
+                    onclick="window.location.href=`{% url 'goal:create-goal' %}`;return false;"
+                    >Create Goal</button>
+                </div>
+            {% endif %}
+        </section>
+<!--!-------------------------------------------------->
+
+
+
+
+       {% if user == page_owner %}
+        <section class="private-goals">
+            <h2 id="private-goals">Private Goals</h2>
+            {% if private_goal_likeable %}
+            {% for goal in private_goal_likeable %}
+                <article class="individual-goal">
+                    {% if user == page_owner %}
+                    <div class="edit-delete-buttons">
+                        <button 
+                            onclick="window.location.href=`{% url 'goal:goal-update' goal.goal.owner.username_slug goal.goal.pk goal.goal.goal_slug %}`;return false;"
+                            class="update-goal icon-btn"
+                        >
+                            <i class="fas fa-pen-square"></i>
+                        </button>
+                        <button class="delete-goal-trash icon-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <div class="delete-goal hide-delete">
+                            <p>Are you sure you want to delete this goal?</p>
+                            <br>
+                            <form action="{% url 'goal:goal-delete' goal.goal.id %}" method="post" class="yes-no-button">
+                                {% csrf_token %}
+                                <button class="yes-no-button" type="submit">
+                                    yes
+                                </button>
+                            </form>
+                            <button class="no-delete-goal yes-no-button">
+                                no
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <h3><a href="{{ goal.goal.get_absolute_url }}">{{ goal.goal.title }}</a></h3>
+
+                    {% if goal.goal.description %}
+                        <p>{{ goal.goal.description }}</p>
+                    {% endif %}
+                        {% if user.is_authenticated %} 
+                            <form action="{% url 'goal:like-goal' goal.goal.id %}" method="post" >
+                                <input type="hidden" name="next" value="{{ request.path }}#private-goals">
+                                {% csrf_token %}
+                                <p>
+                                    {{ goal.goal.upvotes }} 
+                                    <button type="submit" class="like-button icon-btn {% if goal.already_liked %}liked{% endif %}">
+                                        {% if goal.already_liked %}
+                                                <i class="fas fa-thumbs-up"></i>
+                                        {% else %}
+                                                <i class="far fa-thumbs-up"></i>
+                                        {% endif %}
+                                    </button>
+                                </p>
+                            </form>
+                        {% else %}
+                            <p>
+                                {{ goal.goal.upvotes }} 
+                                <button class="like-button icon-btn {% if goal.already_liked %}liked{% endif %} btn-no-login">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                            </p>
+                        {% endif %}
+                    <p>Created: {{ goal.goal.created_at|naturalday }}. 
+                        {% if goal.goal.created_at < goal.goal.updated_at %}
+                            Updated: {{ goal.goal.updated_at|naturalday }}
+                        {% endif %}
+                    </p>
+                </article>
+            {% endfor %}
+            {% else %}
+            <article>
+                <p>No private goals so far...</p>
+            </article>
+        {% endif %}
+        {% if user == page_owner %}
+            <div class="small-create-goal-container">
+                <button
+                class="small-create-goal"
+                onclick="window.location.href=`{% url 'goal:create-goal' %}`;return false;"
+                >Create Goal</button>
+            </div>
+        {% endif %}
+        </section>
+        {% endif %}
+
+
+        <!--! this will be the modal-->
+        <aside class="login-modal">
+            <div class="login-modal-container hidden-modal">
+                <button class="cancel-no-login cancel-no-login-x">
+                    <i class="fas fa-window-close"></i>
+                </button>
+                <h3>You must be logged in to like this goal</h3>
+                <div class="modal-button-container">
+                    <button 
+                        class="modal-button"
+                        onclick="window.location.href=`{% url 'goal:signup' %}?next={{ request.path }}`;return false;"
+                    >
+                        Create Account
+                    </button>
+                    <button 
+                        class="modal-button"
+                        onclick="window.location.href=`{% url 'login' %}?next={{ request.path }}`;return false;"
+                    >
+                        Login
+                    </button>
+                    <button class="cancel-no-login modal-button">Cancel</button>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+    {% if user.is_authenticated %}
+        <script src="{% static 'js/user_detail.js' %}"></script>
+    {% else %}
+        <script src="{% static 'js/user_detail_no_login.js' %}"></script>
+    {% endif%}
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% load humanize %}
+
+{% block styles %} 
+    <link rel="stylesheet" href="{% static 'css/index_styles.css' %}">
+      
+{% endblock %}
+
+{% block content %}
+    <div class="index-content">
+        
+
+    <!--!-------------------------------------------------------------------->
+
+    <section class="top-goals">
+        <h1 id="public-goals">Welcome to the Goals App. <br>These are the Top Goals:</h1>
+        {% if goal_likeable %}
+            {% for goal in goal_likeable %}
+                <article class="individual-goal goal-article">
+                    {% if user == goal.goal.owner %}
+                        <div class="edit-delete-buttons">
+                            <button 
+                                onclick="window.location.href=`{% url 'goal:goal-update' goal.goal.owner.username_slug goal.goal.pk goal.goal.goal_slug %}?next={{ request.url }}`;return false;"
+                                class="update-goal icon-btn"
+                            >
+                                <i class="fas fa-pen-square"></i>
+                            </button>
+                            <button class="delete-goal-trash icon-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <div class="delete-goal hide-delete">
+                                <p>Are you sure you want to delete this goal?</p>
+                                <br>
+                                <form action="{% url 'goal:goal-delete' goal.goal.id %}" method="post" class="yes-no-button">
+                                    {% csrf_token %}
+                                    <button class="yes-no-button" type="submit">
+                                        yes
+                                    </button>
+                                </form>
+                                <button class="no-delete-goal yes-no-button">
+                                    no
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <h3><a class="goal-link" href="{{ goal.goal.get_absolute_url }}">{{ goal.goal.title }}</a></h3>
+                    <!-- edit button
+                    <slug:username_slug>/<int:pk>/<slug:goal_slug>/update/
+                    -->
+                    <h4><a class="goal-link" href="{% url 'goal:user-detail' goal.goal.owner.username_slug %}">
+                        By {{ goal.goal.owner }}
+                    </a></h4>
+
+                    {% if goal.goal.description %}
+                        <p>{{ goal.goal.description }}</p>
+                    {% endif %}
+                        {% if user.is_authenticated %} 
+                            <form action="{% url 'goal:like-goal' goal.goal.id %}#public-goals" method="post" >
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                {% csrf_token %}
+                                <p>
+                                    {{ goal.goal.upvotes }} 
+                                    <button type="submit" class="like-button icon-btn {% if goal.already_liked %}liked{% endif %}">
+                                        {% if goal.already_liked %}
+                                                <i class="fas fa-thumbs-up"></i>
+                                        {% else %}
+                                                <i class="far fa-thumbs-up"></i>
+                                        {% endif %}
+                                    </button>
+                                </p>
+                            </form>
+                        {% else %}
+                            <p>
+                                {{ goal.goal.upvotes }} 
+                                <button class="like-button icon-btn {% if goal.already_liked %}liked{% endif %} btn-no-login">
+                                    <i class="far fa-thumbs-up"></i>
+                                </button>
+                            </p>
+                        {% endif %}
+                    <p>Created: {{ goal.goal.created_at|naturalday }}. 
+                        {% if goal.goal.created_at < goal.goal.updated_at %}
+                            Edited: {{ goal.goal.updated_at|naturalday }}
+                        {% endif %}
+                    </p>
+                </article>
+            {% endfor %}
+
+
+            <div class="pagination">
+                <span class="step-links">
+                    {% if goal_likeable.has_previous %} 
+                        <button class="pagination-btn" onclick="location.href='?page=1'; ">
+                            &laquo; first
+                        </button>
+                        <button class="pagination-btn" onclick="location.href='?page={{ goal_likeable.previous_page_number }}'">
+                            previous
+                        </button>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ goal_likeable.number }} of {{ goal_likeable.paginator.num_pages }}.
+                    </span>
+                    {% if goal_likeable.has_next %}
+                        <button class="pagination-btn" onclick="location.href='?page={{ goal_likeable.next_page_number }}'">next</button>
+                        <button class="pagination-btn" onclick="location.href='?page={{ goal_likeable.paginator.num_pages }}'"">last &raquo;</button>
+                    {% endif %}
+                </span>
+                
+                <!-- <span class="step-links">
+                    {% if goal_likeable.has_previous %} 
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ goal_likeable.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ goal_likeable.number }} of {{ goal_likeable.paginator.num_pages }}.
+                    </span>
+                    {% if goal_likeable.has_next %}
+                        <a href="?page={{ goal_likeable.next_page_number }}">next</a>
+                        <a href="?page={{ goal_likeable.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span> -->
+            </div>
+        {% else %}
+            <article>
+                <p>No goals to display...</p>
+            </article>
+        {% endif %}
+    </section>
+    </div>
+
+    
+    <!--! this will be the modal-->
+    <aside class="login-modal">
+        <div class="login-modal-container hidden-modal">
+            <button class="cancel-no-login cancel-no-login-x">
+                <i class="fas fa-window-close"></i>
+            </button>
+            <h3>You must be logged in to like this goal</h3>
+            <div class="modal-button-container">
+                <button 
+                    class="modal-button"
+                    onclick="window.location.href=`{% url 'goal:signup' %}?next={{ request.path }}`;return false;"
+                >
+                    Create Account
+                </button>
+                <button 
+                    class="modal-button"
+                    onclick="window.location.href=`{% url 'login' %}?next={{ request.path }}`;return false;"
+                >
+                    Login
+                </button>
+                <button class="cancel-no-login modal-button">Cancel</button>
+            </div>
+        </div>
+    </aside>
+    {% if user.is_authenticated %}
+        <script src="{% static 'js/index.js' %}"></script>
+    {% else %}
+        <script src="{% static 'js/index_no_login.js' %}"></script>
+    {% endif %}
+{% endblock %}
+

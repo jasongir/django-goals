@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title>Goals</title> {% endblock title %}
+    {% load static %}
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicons/favicon-16x16.png' %}">
+    <!--<link rel="manifest" href="/site.webmanifest">-->
+
+    <link rel="stylesheet" href="{% static 'css/base_styles.css'%}">
+    {% block styles %} {% endblock styles %}
+    <!-- set up fontawesome for fancy icons-->
+    <script src="https://kit.fontawesome.com/91404efe8e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <noscript>You must have JavaScript enabled to use this application!</noscript>
+
+    <nav>
+        <ul>
+            <li class="nav-home-li"><a href="{% url 'goal:home' %}" >🏠 HOME</a></li>
+
+            <!--
+                <li><a href="{# url 'goal:categories' #}">📋 CATEGORIES</a></li>
+            -->
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'goal:create-goal' %}">✏️ CREATE GOAL</a></li>
+                <li><a href="{{ user.get_absolute_url }}">😀 MY GOALS</a></li>
+            {% else %}
+                <li><a href="{% url 'goal:signup' %}">📝 CREATE ACCOUNT</a></li>
+            {% endif %}
+            <!-- THIS COULD BE FEATURED USERS OR FEATURED LISTS-->
+            <li>
+                {% if user.is_authenticated %}
+                    
+                    <a href="{% url 'logout' %}?next={% url 'goal:home' %}">🔒 LOGOUT</a>
+                {% else %}
+                    <a href="{% url 'login' %}">🔑 LOGIN</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+    <main class="content">
+        {% block content %} You shouldn't see this {% endblock content %}
+    </main>
+    <footer>
+        <div class="footer-container">
+            <p>Created by Jason G</p>
+        </div>
+    </footer>
+</body>
+</html>

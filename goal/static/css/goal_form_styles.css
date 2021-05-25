@@ -1,0 +1,49 @@
+/* The container for all content */
+.main-container {
+    padding: 2rem 3rem;
+}
+/* give the form table a bit of space */
+main table {
+    border-spacing: 2rem;
+    border-collapse: separate
+}
+/* hold the submit and cancel buttons*/
+.btn-container {
+    display: flex;
+    justify-content: space-around;
+
+    padding-bottom: 10vh;
+}
+/* styling for both of the buttons */
+main .submit-btn {
+    font-size: 1rem;
+    padding: 0.5rem 10vw;
+
+    background-color: black;
+    color: white;
+    border-radius: 0.5rem;
+    border: 1px solid var(--font-blue);
+}
+/* for the helpful text under inputs */
+.helptext {
+    font-size: 0.75rem;
+    color: #333;
+}
+
+/* 
+input {
+    border: 1px solid black;
+    border-radius: 9999px;
+    padding: 5px 1rem;
+}
+
+input:hover {
+    box-shadow: 0 0 3px 2px rgb(198, 198, 198);
+}
+
+input:target, 
+input:active, 
+input:focus {
+    box-shadow: 0 0 3px 2px var(--font-blue);
+    border: 1px solid var(--font-blue);
+} */

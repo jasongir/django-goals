@@ -1,0 +1,182 @@
+{% extends 'base.html' %} 
+{% load humanize %} 
+{% load static %}
+
+{% block styles %} 
+   <link rel="stylesheet" href="{% static 'css/goal_detail_styles.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<div class="goal-detail">
+	<section class="goal-section">
+		<article class="goal-info">
+			{% if user == page_owner %}
+            <div class="edit-delete-buttons">
+               <button
+                  onclick="window.location.href=`{% url 'goal:goal-update' goal.owner.username_slug goal.pk goal.goal_slug %}?next={{ request.path }}`;return false;"
+                  class="update-goal icon-btn"
+               >
+                  <i class="fas fa-pen-square"></i>
+               </button>
+               <button class="delete-goal-trash icon-btn">
+                  <i class="fas fa-trash"></i>
+               </button>
+               <div class="delete-goal hide-delete">
+                  <p>Are you sure you want to delete this goal?</p>
+                  <br />
+                  <form
+                     action="{% url 'goal:goal-delete' goal.id %}"
+                     method="post"
+                     class="yes-no-button"
+                  >
+                     {% csrf_token %}
+                     <button class="yes-no-button" type="submit">yes</button>
+                  </form>
+                  <button class="no-delete-goal yes-no-button">no</button>
+               </div>
+            </div>
+			{% endif %}
+
+         <!--! This is where the visible title starts -->
+			<h1>{{ goal.title }}</h1>
+			<h2><a href="{{ goal.owner.get_absolute_url }}">By {{ goal.owner }}</a></h2>
+			<!-- edit button
+                <slug:username_slug>/<int:pk>/<slug:goal_slug>/update/
+                -->
+
+			{% if goal.description %}
+			   <p>{{ goal.description }}</p>
+         {% endif %} 
+         {% if user.is_authenticated %}
+            <form action="{% url 'goal:like-goal' goal.id %}" method="post">
+               <input type="hidden" name="next" value="{{ request.path }}" />
+               {% csrf_token %}
+               <p>
+                  {{ goal.upvotes }}
+                  <button
+                     type="submit"
+                     class="like-button icon-btn {% if goal.already_liked %}liked{% endif %}"
+                  >
+                     {% if already_liked %}
+                        <i class="fas fa-thumbs-up"></i>
+                     {% else %}
+                        <i class="far fa-thumbs-up"></i>
+                     {% endif %}
+                  </button>
+               </p>
+            </form>
+			{% else %}
+            <p>
+               {{ goal.upvotes }}
+               <button
+                  class="like-button icon-btn {% if goal.already_liked %}liked{% endif %} btn-no-login"
+               >
+                  <i class="far fa-thumbs-up"></i>
+               </button>
+            </p>
+			{% endif %}
+			<p>
+            Created: {{ goal.created_at|naturalday }}. 
+            {% if goal.created_at < goal.updated_at %} 
+               Edited: {{ goal.updated_at|naturalday }} 
+            {% endif %}
+			</p>
+		</article>
+	</section>
+	{% if goal.publicity == 'p' %}
+      <section class="comment-section">
+         <h2>Comments</h2>
+         <div class="post-comment">
+            {% if user.is_authenticated %}
+               <form action="{% url 'goal:create-comment' goal.id %}" method="post">
+                  {% csrf_token %}
+                  <table>
+                     {{ comment_form.as_table }}
+                  </table>
+                  <button class="comment-btn" type="submit">Post Comment</button>
+               </form>
+            {% else %}
+               <button
+               class="comment-btn"
+                  onclick="window.location.href=`{% url 'login' %}?next={{ request.path }}`;return false;"
+               >
+                  Login to comment
+               </button>
+               <button
+                  class="comment-btn"
+                  onclick="window.location.href=`{% url 'goal:signup' %}?next={{ request.path }}`;return false;"
+               >
+                  Create an account
+               </button>
+            {% endif %} 
+         </div>
+         {% if comments %} 
+            {% for comment in comments %}
+            <div class="comment">
+               {% if comment.owner == user %}
+                  <div class="delete-comment-buttons">
+                     <button class="delete-comment-trash icon-btn">
+                        <i class="far fa-trash-alt"></i>
+                     </button>
+                     <div class="delete-comment hide-delete">
+                        <p>Are you sure you want to delete this Comment?</p>
+                        <br />
+                        <form
+                           action="{% url 'goal:delete-comment' comment.id %}?next={% url 'goal:goal-detail' user.username_slug goal.pk goal.goal_slug %}}"
+                           method="post"
+                           class="yes-no-button"
+                        >
+                           {% csrf_token %}
+                           <button class="yes-no-button" type="submit">yes</button>
+                        </form>
+                        <button class="no-delete-comment yes-no-button">no</button>
+                     </div>
+                  </div>
+               {% endif %}
+               <h4>
+                  <a href="{% url 'goal:user-detail' comment.owner.username_slug %}"
+                     >{{ comment.owner }}</a
+                  >
+               </h4>
+               <h3>{{ comment.title }}</h3>
+               <p>{{ comment.posted_at }}</p>
+               {% if comment.text %}
+               <p>{{ comment.text }}</p>
+               {% endif %}
+            </div>
+            {% endfor %} 
+         {% else %}
+            <p>no comments to display.</p>
+         {% endif %}
+      </section>
+	{% endif %}
+
+	<aside class="login-modal">
+		<div class="login-modal-container hidden-modal">
+			<button class="cancel-no-login icon-btn cancel-no-login-x">
+				<i class="fas fa-window-close"></i>
+			</button>
+			<h3>You must be logged in to like this goal</h3>
+			<div class="modal-button-container">
+				<button
+					class="modal-button"
+					onclick="window.location.href=`{% url 'goal:signup' %}?next={{ request.path }}`;return false;"
+				>
+					Create Account
+				</button>
+				<button
+					class="modal-button"
+					onclick="window.location.href=`{% url 'login' %}?next={{ request.path }}`;return false;"
+				>
+					Login
+				</button>
+				<button class="cancel-no-login modal-button">Cancel</button>
+			</div>
+		</div>
+	</aside>
+</div>
+{% if user.is_authenticated %}
+   <script src="{% static 'js/goal_detail.js' %}"></script>
+{% else %}
+   <script src="{% static 'js/user_detail_no_login.js' %}"></script>
+{% endif%} {% endblock content %}

@@ -1,0 +1,162 @@
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    padding: 1.5rem 0;
+}
+@media only screen and (min-width: 500px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+}
+.index-content {
+    width: 100%;
+    margin: 0 auto;
+}
+@media only screen and (min-width: 550px) {
+    .index-content {
+        width: 80%
+    }
+}
+@media only screen and (min-width: 850px) {
+    .index-content {
+        width: 60%;
+    }
+}
+
+.goal-link {
+    color: black;
+}
+.goal-link:hover,
+.goal-link:target,
+.goal-link:active {
+    color: var(--font-blue);
+    text-decoration: underline;
+}
+.individual-goal > h3 {
+    width: 80%;
+}
+@media only screen and (min-width: 400px) {
+    .individual-goal > h3 {
+        width: 85%;
+    }
+}
+
+.goal-article {
+    background-color: var(--bubble-gray);
+    padding: 0.5rem;
+    margin: 1rem;
+    border-radius: 1rem;
+}
+
+/* for the pagination buttons at the bottom */
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+.pagination-btn {
+    background-color: white;
+    color: black;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+}
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+/** THE INTERACTIVE STUFF */
+/* button to update goal 
+  & button to open delete menu */
+  .update-goal, .delete-goal-trash {
+    float: right;
+}
+/* The thumbs up button */
+button.like-button {
+    display: inline;
+}
+/* 1 additional style added to each article to 
+allow for absolute positioning of delete menu */
+.individual-goal {
+    position: relative;
+}
+/* div holding the edit, delete button
+    also holds the hidden confirmation div */
+.edit-delete-buttons {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 5px;
+}
+.show-border {
+    border: 1px solid black;
+}
+
+/* the div containing the hidden menu
+with the form to actually delete*/
+.delete-goal.hide-delete {
+    display: none;
+}
+/* buttons to confirm or cancel deletion 
+(and the form containing yes button)*/
+.yes-no-button {
+    display: inline;
+}
+
+
+/** non-logged-in modal styles*/
+/* the div inside aside that shows up when not logged in */
+.login-modal-container {
+    background-color: black;
+    color: white;
+    position: fixed;
+    height: 80vh;
+    width: 80vw;
+    top: 10vh;
+    left: 10vw;
+
+    padding: 2rem;
+    border-radius: 1.5rem;
+}
+/* the x in the corner to exit the modal */
+.cancel-no-login-x {
+    /* some of these styles make it so we only see the x */
+    background-color: black;
+    border: none;
+    color: red;
+
+    font-size: 2rem;
+    position: absolute;
+    right: 4vw;
+    top: 4vw;
+}
+/* the text inside of the modal */
+.login-modal-container h3 {
+    font-size: 2rem;
+    margin-top: 10vh;
+    text-align: center;
+}
+.modal-button-container {
+    margin-top: 20vh;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+/* The buttons inside of the modal: cancel, login, create account */
+.modal-button {
+    color: white;
+    border: 2px solid white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 1rem;
+}
+/* class that the modal starts off with, but is removed with 
+javascript when the thumbs up button is pressed */
+.login-modal.hidden-modal, .login-modal-container.hidden-modal {
+    display: none;
+}
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
