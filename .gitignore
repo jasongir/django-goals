@@ -1,0 +1,6 @@
+*.log
+*.pot
+*.pyc
+settings.py
+
+/goals_project/pycache
